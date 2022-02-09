@@ -46,7 +46,6 @@ import com.android.storagemanager.overlay.FeatureFactory;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
 /**
  * Settings screen for the deletion helper, which manually removes data which is not recently used.
  */
@@ -318,7 +317,12 @@ public class DeletionHelperSettings extends PreferenceFragment
             MetricsLogger.action(getContext(), MetricsEvent.ACTION_DELETION_HELPER_CLEAR);
         } else {
             MetricsLogger.action(getContext(), MetricsEvent.ACTION_DELETION_HELPER_CANCEL);
-            getActivity().finish();
+            //getActivity().finish();
+            if (getActivity() instanceof DeletionHelperActivity) {
+                DeletionHelperActivity activity = (DeletionHelperActivity) getActivity();
+                activity.backToNormalThreshold();
+            }
+    
         }
     }
 
@@ -357,7 +361,8 @@ public class DeletionHelperSettings extends PreferenceFragment
 
     private void initializeButtons() {
         ButtonBarProvider activity = (ButtonBarProvider) getActivity();
-        activity.getButtonBar().setVisibility(View.VISIBLE);
+        // Show button bar by state
+        activity.getButtonBar().setVisibility(isEmptyState() ? View.VISIBLE : View.GONE);
 
         mCancel = activity.getSkipButton();
         mCancel.setText(R.string.cancel);

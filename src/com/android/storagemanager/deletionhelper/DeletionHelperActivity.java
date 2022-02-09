@@ -208,4 +208,11 @@ public class DeletionHelperActivity extends Activity implements ButtonBarProvide
             return msg;
         }
     }
+
+
+    public void backToNormalThreshold() {
+        FragmentManager manager = getFragmentManager();
+        mFragment = DeletionHelperSettings.newInstance(AppStateUsageStatsBridge.NORMAL_THRESHOLD);
+        manager.beginTransaction().replace(R.id.main_content, mFragment).commit();
+    }
 }
